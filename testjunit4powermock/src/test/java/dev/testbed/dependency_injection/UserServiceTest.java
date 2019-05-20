@@ -1,6 +1,7 @@
 package dev.testbed.dependency_injection;
 
 import dev.testbed.*;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -11,13 +12,23 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+/**
+ * Tests with JUnit4 and Dependency Injection
+ */
 public class UserServiceTest {
+
+    private TestBuilder testBuilder;
+
+    @Before
+    public void setup() {
+        testBuilder = new TestBuilder();
+    }
 
     // Normal Tests
 
     @Test
     public void sameUserAndFriend_ThrowsBadRequestException() {
-        UserService userService = new TestBuilder().build();
+        UserService userService = testBuilder.reset().build();
 
         assertThatThrownBy(() -> userService.createFriendship("identical", "identical"))
                 .isInstanceOf(BadRequestException.class)
@@ -26,7 +37,7 @@ public class UserServiceTest {
 
     @Test
     public void userDoesNotExist_ThrowsUserNotExistsException() {
-        UserService userService = new TestBuilder()
+        UserService userService = testBuilder.reset()
                 .whenGetUserReturn("test-user", Optional.empty())
                 .build();
 
@@ -37,7 +48,7 @@ public class UserServiceTest {
 
     @Test
     public void friendDoesNotExist_ThrowsUserNotExistsException() {
-        UserService userService = new TestBuilder()
+        UserService userService = testBuilder.reset()
                 .whenGetUserReturn("test-user", Optional.of(new User("test-name", 21)))
                 .whenGetUserReturn("test-friend", Optional.empty())
                 .build();
@@ -49,7 +60,7 @@ public class UserServiceTest {
 
     @Test
     public void friendshipCreated_FriendshipIdReturned() {
-        UserService userService = new TestBuilder()
+        UserService userService = testBuilder.reset()
                 .whenGetUserReturn("test-user", Optional.of(new User("test-user", 21)))
                 .whenGetUserReturn("test-friend", Optional.of(new User("test-friend", 21)))
                 .whenCreateFriendshipReturnId(5)
@@ -64,8 +75,7 @@ public class UserServiceTest {
 
     @Test
     public void userDao_getUser_CalledWithCallingUser() {
-        TestBuilder testBuilder = new TestBuilder();
-        UserService userService = testBuilder
+        UserService userService = testBuilder.reset()
                 .whenGetUserReturn("test-user", Optional.of(new User("test-user", 21)))
                 .whenGetUserReturn("test-friend", Optional.of(new User("test-friend", 21)))
                 .whenCreateFriendshipReturnId(5)
@@ -81,12 +91,11 @@ public class UserServiceTest {
     public void friendDao_createFriendship_CalledWithUsers() {
         User user = new User("test-user", 21);
         User friend = new User("test-friend", 21);
-        TestBuilder testBuilder = new TestBuilder()
+        UserService userService = testBuilder
                 .whenGetUserReturn("test-user", Optional.of(user))
                 .whenGetUserReturn("test-friend", Optional.of(friend))
-                .whenCreateFriendshipReturnId(5);
-
-        UserService userService = testBuilder.build();
+                .whenCreateFriendshipReturnId(5)
+                .build();
 
         userService.createFriendship("test-user", "test-friend");
 
