@@ -102,22 +102,21 @@ public class UserServiceTest {
         verify(testBuilder.getDependency(FriendDao.class)).createFriendship(user, friend);
     }
 
-}
+    class TestBuilder extends TestBed<UserService, TestBuilder> {
 
-class TestBuilder extends TestBed<UserService, TestBuilder> {
+        TestBuilder() {
+            super(UserService.class);
+        }
 
-    TestBuilder() {
-        super(UserService.class);
+        TestBuilder whenGetUserReturn(String username, Optional<User> user) {
+            when(getDependency(UserDao.class).getUser(username)).thenReturn(user);
+            return this;
+        }
+
+        TestBuilder whenCreateFriendshipReturnId(int id) {
+            when(getDependency(FriendDao.class).createFriendship(any(User.class), any(User.class))).thenReturn(id);
+            return this;
+        }
+
     }
-
-    TestBuilder whenGetUserReturn(String username, Optional<User> user) {
-        when(getDependency(UserDao.class).getUser(username)).thenReturn(user);
-        return this;
-    }
-
-    TestBuilder whenCreateFriendshipReturnId(int id) {
-        when(getDependency(FriendDao.class).createFriendship(any(User.class), any(User.class))).thenReturn(id);
-        return this;
-    }
-
 }
