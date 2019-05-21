@@ -27,6 +27,7 @@ public class UserServiceTest implements UserServiceTestInterface {
     // Normal Tests
 
     @Test
+    @Override
     public void sameUserAndFriend_ThrowsBadRequestException() {
         UserService userService = testBuilder.reset().build();
 
@@ -36,6 +37,7 @@ public class UserServiceTest implements UserServiceTestInterface {
     }
 
     @Test
+    @Override
     public void userDoesNotExist_ThrowsUserNotExistsException() {
         UserService userService = testBuilder.reset()
                 .whenGetUserReturn("test-user", Optional.empty())
@@ -47,6 +49,7 @@ public class UserServiceTest implements UserServiceTestInterface {
     }
 
     @Test
+    @Override
     public void friendDoesNotExist_ThrowsUserNotExistsException() {
         UserService userService = testBuilder.reset()
                 .whenGetUserReturn("test-user", Optional.of(new User("test-name", 21)))
@@ -59,6 +62,7 @@ public class UserServiceTest implements UserServiceTestInterface {
     }
 
     @Test
+    @Override
     public void friendshipCreated_FriendshipIdReturned() {
         UserService userService = testBuilder.reset()
                 .whenGetUserReturn("test-user", Optional.of(new User("test-user", 21)))
@@ -74,6 +78,7 @@ public class UserServiceTest implements UserServiceTestInterface {
     // Verification Tests (For display only)
 
     @Test
+    @Override
     public void userDao_getUser_CalledWithCallingUser() {
         UserService userService = testBuilder.reset()
                 .whenGetUserReturn("test-user", Optional.of(new User("test-user", 21)))
@@ -88,6 +93,7 @@ public class UserServiceTest implements UserServiceTestInterface {
     }
 
     @Test
+    @Override
     public void friendDao_createFriendship_CalledWithUsers() {
         User user = new User("test-user", 21);
         User friend = new User("test-friend", 21);
