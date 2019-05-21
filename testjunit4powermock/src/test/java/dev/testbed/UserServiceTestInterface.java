@@ -2,6 +2,8 @@ package dev.testbed;
 
 public interface UserServiceTestInterface {
 
+    // Normal Tests
+
     void sameUserAndFriend_ThrowsBadRequestException();
 
     void userDoesNotExist_ThrowsUserNotExistsException();
@@ -9,6 +11,8 @@ public interface UserServiceTestInterface {
     void friendDoesNotExist_ThrowsUserNotExistsException();
 
     void friendshipCreated_FriendshipIdReturned();
+
+    // Verification Tests (For display only)
 
     void userDao_getUser_CalledWithCallingUser();
 
