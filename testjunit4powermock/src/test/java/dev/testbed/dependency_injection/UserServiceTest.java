@@ -29,7 +29,7 @@ public class UserServiceTest implements UserServiceTestInterface {
     @Test
     @Override
     public void sameUserAndFriend_ThrowsBadRequestException() {
-        UserService userService = testBuilder.reset().build();
+        UserService userService = testBuilder.build();
 
         assertThatThrownBy(() -> userService.createFriendship("identical", "identical"))
                 .isInstanceOf(BadRequestException.class)
@@ -39,7 +39,7 @@ public class UserServiceTest implements UserServiceTestInterface {
     @Test
     @Override
     public void userDoesNotExist_ThrowsUserNotExistsException() {
-        UserService userService = testBuilder.reset()
+        UserService userService = testBuilder
                 .whenGetUserReturn("test-user", Optional.empty())
                 .build();
 
@@ -51,7 +51,7 @@ public class UserServiceTest implements UserServiceTestInterface {
     @Test
     @Override
     public void friendDoesNotExist_ThrowsUserNotExistsException() {
-        UserService userService = testBuilder.reset()
+        UserService userService = testBuilder
                 .whenGetUserReturn("test-user", Optional.of(new User("test-name", 21)))
                 .whenGetUserReturn("test-friend", Optional.empty())
                 .build();
@@ -64,7 +64,7 @@ public class UserServiceTest implements UserServiceTestInterface {
     @Test
     @Override
     public void friendshipCreated_FriendshipIdReturned() {
-        UserService userService = testBuilder.reset()
+        UserService userService = testBuilder
                 .whenGetUserReturn("test-user", Optional.of(new User("test-user", 21)))
                 .whenGetUserReturn("test-friend", Optional.of(new User("test-friend", 21)))
                 .whenCreateFriendshipReturnId(5)
@@ -80,7 +80,7 @@ public class UserServiceTest implements UserServiceTestInterface {
     @Test
     @Override
     public void userDao_getUser_CalledWithCallingUser() {
-        UserService userService = testBuilder.reset()
+        UserService userService = testBuilder
                 .whenGetUserReturn("test-user", Optional.of(new User("test-user", 21)))
                 .whenGetUserReturn("test-friend", Optional.of(new User("test-friend", 21)))
                 .whenCreateFriendshipReturnId(5)
