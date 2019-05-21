@@ -17,7 +17,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(UserService.class)
-public class UserServiceTest implements UserServiceTestInterface {
+public class UserServiceNewDependencyTest implements UserServiceTestInterface {
 
     private TestBuilder testBuilder;
 
