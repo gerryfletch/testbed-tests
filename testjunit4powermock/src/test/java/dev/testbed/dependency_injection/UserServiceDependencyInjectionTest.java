@@ -15,7 +15,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 /**
  * Tests with JUnit4 and Dependency Injection
  */
-public class UserServiceTest implements UserServiceTestInterface {
+public class UserServiceDependencyInjectionTest implements UserServiceTestInterface {
 
     private TestBuilder testBuilder;
 
